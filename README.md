@@ -13,7 +13,7 @@ ffmpeg -i in.mp4 -f mpegts -codec:v mpeg1video -codec:a mp2 -b 0 out.ts
  ```
 实例化videoPlay
 ```JS
-//实例化videoPlayer
+//实例化videoPlayer，传入mp4文件路径，如果是安卓微信端，会自动调用相同目录下相同文件名的.ts文件
 var video = new Video("video.mp4",{
     loop : false,
     autoplay : false,
