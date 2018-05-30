@@ -14,7 +14,8 @@ var video = new Video({
     loop : false,
     autoplay : false,
     objectFit : "cover",
-    chunkSize : 512
+    chunkSize : 512,
+    totalTime : 10
 });
 ```
 
@@ -22,10 +23,11 @@ var video = new Video({
 
 | Field           | Type            | Default  | Description                           | 
 | --------------- |:---------------:| :------: | ------------------------------------  |
-| `loop`          | `boolean`       | `false`  | 视频是否循环播放 |
-| `autoplay`      | `boolean`       | `false`  | 视频是否自动播放           |
-| `objectFit`     | `string`        | "cover"  | 设置视频的object-fit属性，该项值同css的object-fit属性      |
-| `chunkSize`     | `number`        | `512`    | 设置ts视频文件分段值，单位为KB，该项只对ts文件有效 |
+| `loop`          | `boolean`       | `false`  | 视频是否循环播放，该项可选。 |
+| `autoplay`      | `boolean`       | `false`  | 视频是否自动播放，该项可选。          |
+| `objectFit`     | `string`        | "cover"  | 设置视频的object-fit属性，该项值同css的object-fit属性，该项可选。      |
+| `chunkSize`     | `number`        | `512`    | 设置ts视频文件分段值，单位为KB，该项只对ts文件有效，该项可选。 |
+| `totalTime`     | `number`        | none    | 设置ts视频文件播放时长，单位为s，仅用在监听视频播放结束时使用，如果不需要监听视频播放结束，该项可选。 |
 
 ## Methods
 实例化完成后，你可以使用以下方法进行视频播放：
@@ -55,6 +57,8 @@ var video = new Video({
 - `"timeupdate"` - 播放过程中
 - `"pause"` - 暂停视频
 - `"ended"` - 播放结束
+
+如果要使用addEventListener监听播放结束，option中一定要设置totalTime，否则ts文件无法拿到播放结束的状态。
 
 ```JS
 //示例
