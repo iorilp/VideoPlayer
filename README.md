@@ -19,6 +19,7 @@ var video = new Video({
 ```
 
 ## Options
+
 | Field           | Type            | Default  | Description                           | 
 | --------------- |:---------------:| :------: | ------------------------------------  |
 | `loop`          | `boolean`       | `false`  | 视频是否循环播放 |
@@ -28,6 +29,7 @@ var video = new Video({
 
 ## Methods
 实例化完成后，你可以使用以下方法进行视频播放：
+
 | Field           | Parameter              | Description                         | 
 | --------------- | :--------------------: | ----------------------------------- |
 | `load()`        | none                   | loading视频，该项只对MP4文件有效，ts文件会在实例化的时候加载   |
@@ -42,6 +44,7 @@ var video = new Video({
 
 ## Events
 播放事件的监听及取消监听的方法。
+
 | Field           | Parameter          | Description           | 
 | --------------- | :----------------: |---------------------- |
 | `addEventListener(events,handler)`          | `events` `handler`  | 监听事件。`events` - 监听事件名称，`handler` - 监听事件执行方法。   |
