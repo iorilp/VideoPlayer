@@ -2,6 +2,10 @@
 解决H5在微信浏览器中弹出播放框的插件
 
 ## 如何使用
+使用FFMpeg转换文件ts
+```sh
+ffmpeg -i in.mp4 -f mpegts -codec:v mpeg1video -codec:a mp2 -b 0 out.ts
+```
 引入JS核心文件
 ```html
 <script type="text/javascript" src="jsmpeg.min.js"></script>
@@ -10,7 +14,7 @@
 实例化videoPlay
 ```JS
 //实例化videoPlayer
-var video = new Video({
+var video = new Video("video.mp4",{
     loop : false,
     autoplay : false,
     objectFit : "cover",
