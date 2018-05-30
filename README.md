@@ -22,6 +22,10 @@ var video = new Video("video.mp4",{
     totalTime : 10
 });
 ```
+将实例化的video插入DOM标签
+```JS
+$("video").append(video.domElement);
+```
 
 ## Options
 
