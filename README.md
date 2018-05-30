@@ -46,7 +46,7 @@ var video = new Video("video.mp4",{
 | `getPlayStatus()`| none                   | 获取视频播放状态。 |
 | `paused`         | none                   | 获取视频是否暂停。 |
 | `currentTime`    | none                   | 获取或设置视频的播放位置。 |
-| `muted`          | none                   | 获取或设置视频的音量。 |
+| `muted`          | none                   | 获取或设置视频是否静音。 |
 
 ## Events
 播放事件的监听及取消监听的方法。
