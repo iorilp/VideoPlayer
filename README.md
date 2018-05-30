@@ -24,7 +24,7 @@ var video = new Video({
 | --------------- |:---------------:| :------: | ------------------------------------  |
 | `loop`          | `boolean`       | `false`  | 视频是否循环播放 |
 | `autoplay`      | `boolean`       | `false`  | 视频是否自动播放           |
-| `objectFit`     | `string`        | cover    | 设置视频的object-fit属性，该项值同css的object-fit属性      |
+| `objectFit`     | `string`        | "cover"  | 设置视频的object-fit属性，该项值同css的object-fit属性      |
 | `chunkSize`     | `number`        | `512`    | 设置ts视频文件分段值，单位为KB，该项只对ts文件有效 |
 
 ## Methods
