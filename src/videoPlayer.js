@@ -214,7 +214,7 @@ var Video;
                 }
 
             }else{
-                _this.video.removeEventListener("type",callback);
+                _this.video.removeEventListener(type,callback);
             }
         }
 
