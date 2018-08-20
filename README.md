@@ -35,7 +35,8 @@ $(".video").append(video.domElement);
 | `autoplay`      | `boolean`       | `false`  | 视频是否自动播放，该项可选。          |
 | `objectFit`     | `string`        | "cover"  | 设置视频的object-fit属性，该项值同css的object-fit属性，该项可选。      |
 | `chunkSize`     | `number`        | `512`    | 设置ts视频文件分段值，单位为KB，该项只对ts文件有效，该项可选。 |
-| `totalTime`     | `number`        | none    | 设置ts视频文件播放时长，单位为s，仅用在监听视频播放结束时使用，如果不需要监听视频播放结束，该项可选。 |
+| `totalTime`     | `number`        | none     | 设置ts视频文件播放时长，单位为s，仅用在监听视频播放结束时使用，如果不需要监听视频播放结束，该项可选。 |
+| `type`          | `string`        | `auto`   | 强制使用mp4文件或者ts文件，可设置的值为"mp4"、"ts"、"auto"，该项可选。 |
 
 ## Methods
 实例化完成后，你可以使用以下方法进行视频播放：
