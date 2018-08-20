@@ -7,14 +7,15 @@ var Video;
             loop : opts.loop || false,
             autoplay : opts.autoplay || false,
             objectFit : opts.objectFit?opts.objectFit:"cover",
-            chunkSize : opts.chunkSize * 1024 || 512 * 1024
+            chunkSize : opts.chunkSize * 1024 || 512 * 1024,
+            type : opts.type?opts.type:"auto"
         };
 
         var u = navigator.userAgent.toLowerCase();
         var isWeixin = u.indexOf('micromessenger') > -1;
         var isAndroid = u.indexOf('android') > -1 || u.indexOf('linux') > -1;
 
-        if(isWeixin && isAndroid) {
+        if(isWeixin && isAndroid && options.type !== "mp4") {
             this.useTs = true;
             domElement = document.createElement("canvas");
             if(options.objectFit !== "fill"){
@@ -55,7 +56,7 @@ var Video;
             domElement = video;
         }
 
-        this.totalTime = opts.totalTime;
+        this.totalTime = opts.totalTime-1;
         this.video = video;
         this.domElement = domElement;
         this._Event = {};
