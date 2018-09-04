@@ -48,7 +48,6 @@ $(".video").append(video.domElement);
 | `pause()`        | none                   | 暂停播放视频。|
 | `stop()`         | none                   | 停止播放视频。|
 | `destroy()`      | none                   | 清除视频及监听事件。|
-| `getPlayStatus()`| none                   | 获取视频播放状态。 |
 | `paused`         | none                   | 获取视频是否暂停。 |
 | `currentTime`    | none                   | 获取或设置视频的播放位置。 |
 | `muted`          | none                   | 获取或设置视频是否静音。 |

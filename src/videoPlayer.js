@@ -131,9 +131,9 @@ var Video;
         },
         getPlayStatus : function () {
             if(this.useTs){
-                return this.video.isPlaying;
+                return !this.video.isPlaying;
             }else{
-                return !this.video.paused;
+                return this.video.paused;
             }
         },
         _loop : function () {
