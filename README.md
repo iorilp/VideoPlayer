@@ -39,6 +39,7 @@ $(".video").append(video.domElement);
 | `loop`          | `boolean`       | `false`  | 视频是否循环播放，该项可选。 |
 | `autoplay`      | `boolean`       | `false`  | 视频是否自动播放，该项可选。          |
 | `chunkSize`     | `number`        | `512`    | 设置ts视频文件分段值，单位为KB，该项只对ts文件有效，该项可选。 |
+| `progressive`   | `boolean`       | `true`   | 是否分块加载数据。启用后，可以在完全加载整个源之前开始播放，该项只对ts文件有效，该项可选。 |
 | `type`          | `string`        | `auto`   | 强制使用mp4文件或者ts文件，可设置的值为"mp4"、"ts"、"auto"，该项可选。 |
 
 ## Methods

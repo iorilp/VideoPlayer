@@ -10,6 +10,7 @@ var Video;
             loop : opts.loop || false,
             autoplay : opts.autoplay || false,
             chunkSize : opts.chunkSize * 1024 || 512 * 1024,
+            progressive : opts.progressive !== false,
             type : opts.type?opts.type:"auto"
         };
 
