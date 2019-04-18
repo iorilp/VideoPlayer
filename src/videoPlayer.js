@@ -67,6 +67,7 @@ var Video;
             video.setAttribute("airplay","allow");
             video.setAttribute("playsinline","");
             video.setAttribute("webkit-playsinline","");
+            video.setAttribute("t7-video-player-type","inline");
             video.controls = false;
             if(options.autoplay)video.setAttribute("autoplay","true");
             if(options.loop)video.setAttribute("loop","true");
