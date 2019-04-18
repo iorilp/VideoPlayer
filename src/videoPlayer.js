@@ -11,7 +11,7 @@ var Video;
             autoplay : opts.autoplay || false,
             chunkSize : opts.chunkSize * 1024 || 512 * 1024,
             progressive : opts.progressive !== false,
-            type : opts.type?opts.type:"auto"
+            type : opts.type || "auto"
         };
 
         var u = navigator.userAgent.toLowerCase();
@@ -29,9 +29,10 @@ var Video;
 
             video = new JSMpeg.Player(src.replace(".mp4",".ts"), {
                 canvas: domElement,
-                loop: options.loop || false,
-                autoplay : options.autoplay || false,
+                loop: options.loop,
+                autoplay : options.autoplay,
                 chunkSize : options.chunkSize,
+                progressive : options.progressive,
                 onPlay : function (player) {
                     _this.ended = false;
                     if(!_this._Event.play)return;
