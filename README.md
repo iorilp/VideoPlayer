@@ -6,6 +6,13 @@
 ```sh
 ffmpeg -i in.mp4 -f mpegts -codec:v mpeg1video -codec:a mp2 -b 0 out.ts
 ```
+也可以控制视频宽高(`-s`)、帧率(`-f`)等参数，具体可以查阅ffmpeg文档。
+```sh
+ffmpeg -i in.mp4 -f mpegts \
+	-codec:v mpeg1video -s 960x540 -b:v 1500k -r 30 -bf 0 \
+	-codec:a mp2 -ar 44100 -ac 1 -b:a 128k \
+	out.ts
+```
 引入JS核心文件
 ```html
 <script type="text/javascript" src="jsmpeg.min.js"></script>
@@ -17,9 +24,7 @@ ffmpeg -i in.mp4 -f mpegts -codec:v mpeg1video -codec:a mp2 -b 0 out.ts
 var video = new Video("video.mp4",{
     loop : false,
     autoplay : false,
-    objectFit : "cover",
-    chunkSize : 512,
-    totalTime : 10
+    chunkSize : 512
 });
 ```
 将实例化的video插入DOM标签
@@ -33,9 +38,7 @@ $(".video").append(video.domElement);
 | --------------- |:---------------:| :------: | ------------------------------------  |
 | `loop`          | `boolean`       | `false`  | 视频是否循环播放，该项可选。 |
 | `autoplay`      | `boolean`       | `false`  | 视频是否自动播放，该项可选。          |
-| `objectFit`     | `string`        | "cover"  | 设置视频的object-fit属性，该项值同css的object-fit属性，该项可选。      |
 | `chunkSize`     | `number`        | `512`    | 设置ts视频文件分段值，单位为KB，该项只对ts文件有效，该项可选。 |
-| `totalTime`     | `number`        | none     | 设置ts视频文件播放时长，单位为s，仅用在监听视频播放结束时使用，如果不需要监听视频播放结束，该项可选。 |
 | `type`          | `string`        | `auto`   | 强制使用mp4文件或者ts文件，可设置的值为"mp4"、"ts"、"auto"，该项可选。 |
 
 ## Methods
@@ -49,6 +52,7 @@ $(".video").append(video.domElement);
 | `stop()`         | none                   | 停止播放视频。|
 | `destroy()`      | none                   | 清除视频及监听事件。|
 | `paused`         | none                   | 获取视频是否暂停。 |
+| `ended`          | none                   | 获取视频是否结束。 |
 | `currentTime`    | none                   | 获取或设置视频的播放位置。 |
 | `muted`          | none                   | 获取或设置视频是否静音。 |
 
@@ -65,8 +69,6 @@ $(".video").append(video.domElement);
 - `"timeupdate"` - 播放过程中
 - `"pause"` - 暂停视频
 - `"ended"` - 播放结束
-
-如果要使用addEventListener监听播放结束，option中一定要设置totalTime，否则ts文件无法拿到播放结束的状态。
 
 ```JS
 //示例

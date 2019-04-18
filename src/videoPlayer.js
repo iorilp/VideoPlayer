@@ -1,34 +1,62 @@
 var Video;
 !function () {
     Video = function (src,opts) {
+        var _this = this;
         var video,domElement;
+
+        if(!opts)opts = {};
 
         var options = {
             loop : opts.loop || false,
             autoplay : opts.autoplay || false,
-            objectFit : opts.objectFit?opts.objectFit:"cover",
             chunkSize : opts.chunkSize * 1024 || 512 * 1024,
             type : opts.type?opts.type:"auto"
         };
 
         var u = navigator.userAgent.toLowerCase();
-        var isWeixin = u.indexOf('micromessenger') > -1;
+        var isWeChat = u.indexOf('micromessenger') > -1;
         var isAndroid = u.indexOf('android') > -1 || u.indexOf('linux') > -1;
 
-        if(isWeixin && isAndroid && options.type !== "mp4") {
+        if(isWeChat && isAndroid && options.type !== "mp4") {
             this.useTs = true;
             domElement = document.createElement("canvas");
             if(options.objectFit !== "fill"){
                 domElement.style.width = "100%";
                 domElement.style.height = "100%";
-                domElement.style.objectFit = options.objectFit;
+                domElement.style.objectFit = "cover";
             }
 
             video = new JSMpeg.Player(src.replace(".mp4",".ts"), {
                 canvas: domElement,
                 loop: options.loop || false,
                 autoplay : options.autoplay || false,
-                chunkSize : options.chunkSize
+                chunkSize : options.chunkSize,
+                onPlay : function (player) {
+                    _this.ended = false;
+                    if(!_this._Event.play)return;
+                    for (var i in _this._Event.play){
+                        _this._Event.play[i]();
+                    }
+                },
+                onVideoDecode : function (decoder, time) {
+                    if(!_this._Event.timeupdate)return;
+                    for (var i in _this._Event.timeupdate){
+                        _this._Event.timeupdate[i]();
+                    }
+                },
+                onPause : function (player) {
+                    if(!_this._Event.pause)return;
+                    for (var i in _this._Event.pause){
+                        _this._Event.pause[i]();
+                    }
+                },
+                onEnded : function (player) {
+                    _this.ended = true;
+                    if(!_this._Event.ended)return;
+                    for (var i in _this._Event.ended){
+                        _this._Event.ended[i]();
+                    }
+                }
             });
         }else{
             video = document.createElement("video");
@@ -56,14 +84,18 @@ var Video;
             domElement = video;
         }
 
-        this.totalTime = opts.totalTime-1;
         this.video = video;
         this.domElement = domElement;
         this._Event = {};
-        this._Temp = {};
+
+        if(!this.useTs){
+            Object.defineProperty(this,"ended",{
+                get : this.getEnded
+            });
+        }
 
         Object.defineProperty(this,"paused",{
-            get : this.getPlayStatus
+            get : this.getPaused
         });
 
         Object.defineProperty(this,"currentTime",{
@@ -86,7 +118,7 @@ var Video;
         },
         play : function () {
             if(this.useTs){
-                if(this._Temp.ended)this.video.currentTime = 0;
+                if(this.ended)this.video.currentTime = 0;
             }
             this.video.play();
         },
@@ -103,8 +135,6 @@ var Video;
         },
         destroy : function () {
             if(this.useTs){
-                if(this.animationFrame)cancelAnimationFrame(this.animationFrame);
-                console.log(this.animationFrame);
                 this.video.destroy();
             }
         },
@@ -126,67 +156,15 @@ var Video;
             return this.video.currentTime;
         },
         setCurrentTime : function (time) {
-            // this.seek(time);
             this.video.currentTime = time;
         },
-        getPlayStatus : function () {
-            if(this.useTs){
-                return !this.video.isPlaying;
-            }else{
-                return this.video.paused;
-            }
+        getPaused : function () {
+            return this.video.paused;
         },
-        _loop : function () {
-            this.animationFrame = requestAnimationFrame(this._loop.bind(this));
-            var _this = this;
-
-            if(this.video.isPlaying){
-                //播放状态
-                this._Temp.pause = false;
-                this._Temp.ended = false;
-
-                if(this._Event.timeupdate){
-                    for (var timeupdateItem in this._Event.timeupdate){
-                        _this._Event.timeupdate[timeupdateItem]();
-                    }
-                }
-
-                if(this._Event.play && !this._Temp.play){
-                    this._Temp.play = true;
-                    for (var playItem in this._Event.play){
-                        _this._Event.play[playItem]();
-                    }
-                }
-            }else{
-                if(this.video.currentTime >= this.totalTime){
-                    //完成状态
-                    if(this.video.currentTime !== 0 && !this._Temp.ended){
-                        this._Temp.pause = true;
-                        this._Temp.ended = true;
-                        if(this._Event.pause){
-                            for (var pauseItem in this._Event.pause){
-                                _this._Event.pause[pauseItem]();
-                            }
-                        }
-                        if(this._Event.ended){
-                            for (var endedItem in this._Event.ended){
-                                _this._Event.ended[endedItem]();
-                            }
-                        }
-                    }
-                }else{
-                    //暂停状态
-                    if(this.video.currentTime !== 0 && !this._Temp.pause){
-                        this._Temp.pause = true;
-                        if(this._Event.pause){
-                            for (var pauseItem in this._Event.pause){
-                                _this._Event.pause[pauseItem]();
-                            }
-                        }
-                    }
-                }
+        getEnded : function () {
+            if(!this.useTs){
+                return this.video.ended;
             }
-
         },
         addEventListener : function (type,callback) {
             var _this = this;
@@ -195,7 +173,6 @@ var Video;
                 if(!this._Event[type])this._Event[type] = {};
                 this._Event[type][callback+""] = callback;
 
-                this.animationFrame = requestAnimationFrame(this._loop.bind(this));
             }else{
                 _this.video.addEventListener(type,callback);
             }
@@ -209,11 +186,6 @@ var Video;
                 if(Object.getOwnPropertyNames(_this._Event[type]).length  === 0){
                     delete _this._Event[type];
                 }
-
-                if(!_this._Event.play && !_this._Event.timeupdate && !_this._Event.pause && !_this._Event.ended){
-                    if(_this.animationFrame)cancelAnimationFrame(_this.animationFrame);
-                }
-
             }else{
                 _this.video.removeEventListener(type,callback);
             }

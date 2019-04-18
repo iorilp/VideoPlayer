@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../src/jsmpeg.min.js"></script>
+    <script src="../src/videoPlayer.js"></script>
+    <style>
+        .video {
+            width:375px;
+            height:724px;
+        }
+        video,canvas {
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+    </style>
+</head>
+<body>
+<div class="video" id="video"></div>
+</body>
+<script>
+    var video = new Video("video/video.mp4");
+
+    video.addEventListener("play",function(){
+        console.log("video play");
+    });
+
+    function timeupdate () {
+        console.log(video.currentTime);
+        if(video.currentTime > 2){
+            video.removeEventListener("timeupdate",timeupdate);
+        }
+    }
+
+    video.addEventListener("timeupdate",timeupdate);
+
+    video.addEventListener("pause",function(){
+        console.log("video pause");
+
+    });
+
+    video.addEventListener("ended",function(){
+        console.log("video ended");
+    });
+
+    console.log(video);
+    document.getElementById("video").appendChild(video.domElement);
+    document.getElementById("video").addEventListener("click",function(){
+        video.pause();
+    });
+    video.play();
+</script>
+</html>
