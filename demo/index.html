@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="../src/jsmpeg.min.js"></script>
+    <script src="../src/iphone-inline-video.min.js"></script>
     <script src="../src/videoPlayer.js"></script>
     <style>
         .video {
             width:375px;
             height:724px;
+            float:left;
         }
         video,canvas {
             width:100%;
@@ -18,39 +20,53 @@
     </style>
 </head>
 <body>
-<div class="video" id="video"></div>
+<div class="video" id="video0"></div>
+<div class="video" id="video1"></div>
 </body>
 
 <script>
-    var video = new Video("video/video.mp4");
-
-    video.addEventListener("play",function(){
-        console.log("video play");
+    var video0 = new Video("video/video.mp4");
+    var video1 = new Video("video/video.ts",{
+        progressive : false
     });
 
-    function timeupdate () {
-        console.log(video.currentTime);
-        if(video.currentTime > 2){
-            video.removeEventListener("timeupdate",timeupdate);
-        }
-    }
-
-    video.addEventListener("timeupdate",timeupdate);
-
-    video.addEventListener("pause",function(){
-        console.log("video pause");
-
+    video0.addEventListener("play",function(){
+        console.log("video0 play");
+    });
+    video1.addEventListener("play",function(){
+        console.log("video1 play");
     });
 
-    video.addEventListener("ended",function(){
-        console.log("video ended");
+    video0.addEventListener("timeupdate",function () {
+        console.log("video0 currentTime:"+video0.currentTime);
+    });
+    video1.addEventListener("timeupdate",function () {
+        console.log("video1 currentTime:"+video1.currentTime);
     });
 
-    console.log(video);
-    document.getElementById("video").appendChild(video.domElement);
-    document.getElementById("video").addEventListener("click",function(){
-        video.pause();
+    video0.addEventListener("pause",function(){
+        console.log("video0 pause");
     });
-    video.play();
+    video1.addEventListener("pause",function(){
+        console.log("video1 pause");
+    });
+
+    video0.addEventListener("ended",function(){
+        console.log("video0 ended");
+    });
+    video1.addEventListener("ended",function(){
+        console.log("video1 ended");
+    });
+
+    document.getElementById("video0").appendChild(video0.domElement);
+    document.getElementById("video1").appendChild(video1.domElement);
+
+    document.getElementById("video0").addEventListener("click",function(){
+        video0.paused?video0.play():video0.pause();
+    });
+    document.getElementById("video1").addEventListener("click",function(){
+        video1.paused?video1.play():video1.pause();
+    });
+
 </script>
 </html>

@@ -1,7 +1,30 @@
 # VideoPlayer
-解决H5在微信浏览器中弹出播放框的插件
+解决H5在微信浏览器中弹出播放框的插件。
 
-## 如何使用
+2020.5
+目前微信更新后，也可以通过添加参数控制视频非全屏，所以不需要再使用ts转换，但保留此功能，留给万一需要的浏览器使用。此版本另外加入了对IOS微博的支持。
+
+## MP4视频如何使用
+
+引入JS核心文件
+```html
+<script type="text/javascript" src="iphone-inline-video.min.js"></script>
+<script type="text/javascript" src="videoPlayer.js"></script>
+ ```
+实例化videoPlay
+```JS
+//实例化videoPlayer，传入mp4文件路径，如果是安卓微信端，会自动调用相同目录下相同文件名的.ts文件
+var video = new Video("video.mp4",{
+    loop : false,
+    autoplay : false
+});
+```
+将实例化的video插入DOM标签
+```JS
+$(".video").append(video.domElement);
+```
+
+## TS视频如何使用
 使用FFMpeg转换文件ts
 ```sh
 ffmpeg -i in.mp4 -f mpegts -codec:v mpeg1video -codec:a mp2 -b 0 out.ts
@@ -40,7 +63,7 @@ $(".video").append(video.domElement);
 | `autoplay`      | `boolean`       | `false`  | 视频是否自动播放，该项可选。          |
 | `chunkSize`     | `number`        | `512`    | 设置ts视频文件分段值，单位为KB，该项只对ts文件有效，该项可选。 |
 | `progressive`   | `boolean`       | `true`   | 是否分块加载数据。启用后，可以在完全加载整个源之前开始播放，该项只对ts文件有效，该项可选。 |
-| `type`          | `string`        | `auto`   | 强制使用mp4文件或者ts文件，可设置的值为"mp4"、"ts"、"auto"，该项可选。 |
+关于ts文件的其他的选项可以参看jsmpeg并修改源文件 https://github.com/phoboslab/jsmpeg
 
 ## Methods
 实例化完成后，你可以使用以下方法进行视频播放：
