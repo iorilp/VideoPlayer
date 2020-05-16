@@ -43,7 +43,7 @@ ffmpeg -i in.mp4 -f mpegts \
 实例化videoPlay
 ```JS
 //实例化videoPlayer，传入ts文件路径
-var video = new Video("video.mp4",{
+var video = new Video("video.ts",{
     loop : false,
     autoplay : false,
     chunkSize : 512
