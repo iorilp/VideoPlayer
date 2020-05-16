@@ -63,6 +63,7 @@ $(".video").append(video.domElement);
 | `autoplay`      | `boolean`       | `false`  | 视频是否自动播放，该项可选。          |
 | `chunkSize`     | `number`        | `512`    | 设置ts视频文件分段值，单位为KB，该项只对ts文件有效，该项可选。 |
 | `progressive`   | `boolean`       | `true`   | 是否分块加载数据。启用后，可以在完全加载整个源之前开始播放，该项只对ts文件有效，该项可选。 |
+
 关于ts文件的其他的选项可以参看jsmpeg并修改源文件 https://github.com/phoboslab/jsmpeg
 
 ## Methods
